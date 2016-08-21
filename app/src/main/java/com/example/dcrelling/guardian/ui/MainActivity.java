@@ -1,8 +1,6 @@
 package com.example.dcrelling.guardian.ui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.os.Bundle;
@@ -35,6 +33,7 @@ public class MainActivity extends AppCompatActivity
 
   private GuardianService _guardianService;
 
+
   @Override
   protected void onCreate(Bundle savedInstanceState)
   {
@@ -65,10 +64,19 @@ public class MainActivity extends AppCompatActivity
 
     _guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
 
+    loadDefaultArticles();
 
+  }
+
+
+  private void loadDefaultArticles()
+  {
     Map<String, String> params = new HashMap<String, String>();
-    params.put("api-key", "test");
-//    params.put("begin_date", "20160810");
+    params.put("api-key", GuardianService.API_KEY);
+    params.put("format", "json");
+    params.put("from-date", "2016-08-21");
+    params.put("page", "1");
+    params.put("page-size", "10");
 
     _guardianService.searchArticles(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<ArticleSearchResponse>()
     {
@@ -83,7 +91,6 @@ public class MainActivity extends AppCompatActivity
         articleListView.setAdapter(articleAdapter);
       }
     });
-
   }
 
 
