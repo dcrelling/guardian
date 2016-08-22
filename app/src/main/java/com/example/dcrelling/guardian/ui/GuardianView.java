@@ -7,4 +7,10 @@ package com.example.dcrelling.guardian.ui;
 public interface GuardianView
 {
   void onDisplayArticleList();
+
+
+  void onShowProgress();
+
+
+  void onDropProgress();
 }

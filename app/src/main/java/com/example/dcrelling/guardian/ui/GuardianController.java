@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import com.example.dcrelling.guardian.R;
 import com.example.dcrelling.guardian.adapters.ArticleAdapter;
@@ -24,6 +25,7 @@ public class GuardianController extends AppCompatActivity
 
   private GuardianPresenter _presenter;
   private GuardianModel _model;
+  private ProgressBar _progressBar;
 
 
   @Override
@@ -53,6 +55,8 @@ public class GuardianController extends AppCompatActivity
 
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
+
+    _progressBar = (ProgressBar) findViewById(R.id.article_progress);
 
     _model = new GuardianModel();
     _presenter = new GuardianPresenterImpl(this, _model);
@@ -157,5 +161,19 @@ public class GuardianController extends AppCompatActivity
     RelativeLayout listContainer = (RelativeLayout) findViewById(R.id.content_main);
     ListView articleListView = (ListView) listContainer.findViewById(R.id.article_list);
     articleListView.setAdapter(articleAdapter);
+  }
+
+
+  @Override
+  public void onShowProgress()
+  {
+    _progressBar.setVisibility(View.VISIBLE);
+  }
+
+
+  @Override
+  public void onDropProgress()
+  {
+    _progressBar.setVisibility(View.GONE);
   }
 }

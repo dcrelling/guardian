@@ -49,6 +49,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
   @Override
   public void loadArticles(GuardianService.ApiType apiType)
   {
+    _view.onShowProgress();
     Map<String, String> params = _articleSearchParametersFactory.getParameters(apiType);
     _guardianService.getArticles(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<GuardianArticleResponse>()
     {
@@ -57,6 +58,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
       {
         Log.d("got here", "got here");
         _model.setArticleList(articleResponse.getResponse().getArticleList());
+        _view.onDropProgress();
         _view.onDisplayArticleList();
       }
     });
