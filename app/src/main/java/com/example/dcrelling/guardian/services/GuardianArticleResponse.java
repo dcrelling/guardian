@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by dcrelling on 8/21/16.
  */
 
-public class ArticleSearchResponse
+public class GuardianArticleResponse
 {
   public Response response;
 

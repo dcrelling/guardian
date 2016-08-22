@@ -2,7 +2,7 @@ package com.example.dcrelling.guardian.ui;
 
 import java.util.List;
 
-import com.example.dcrelling.guardian.services.ArticleSearchResponse;
+import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 
 /**
  * Created by dcrelling on 8/21/16.
@@ -10,16 +10,16 @@ import com.example.dcrelling.guardian.services.ArticleSearchResponse;
 
 public class GuardianModel
 {
-  private List<ArticleSearchResponse.Article> _articleList;
+  private List<GuardianArticleResponse.Article> _articleList;
 
 
-  public List<ArticleSearchResponse.Article> getArticleList()
+  public List<GuardianArticleResponse.Article> getArticleList()
   {
     return _articleList;
   }
 
 
-  public void setArticleList(List<ArticleSearchResponse.Article> articleList)
+  public void setArticleList(List<GuardianArticleResponse.Article> articleList)
   {
     _articleList = articleList;
   }

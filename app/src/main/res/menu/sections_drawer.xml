@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/us_news"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/us_news_section" />
+        <item
+            android:id="@+id/music"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/music_section" />
+        <item
+            android:id="@+id/business"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/business_section" />
+        <item
+            android:id="@+id/technology"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/technology_section" />
+        <item
+            android:id="@+id/world"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/world_news_section" />
+        <item
+            android:id="@+id/politics"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/politics_section" />
+    </group>
+</menu>

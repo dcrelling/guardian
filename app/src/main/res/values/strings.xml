@@ -5,4 +5,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="us_news_section">US News</string>
+    <string name="music_section">Music</string>
+    <string name="business_section">Business</string>
+    <string name="technology_section">Technology</string>
+    <string name="world_news_section">World News</string>
+    <string name="politics_section">Politics</string>
 </resources>

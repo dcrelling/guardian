@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.example.dcrelling.guardian.R;
 import com.example.dcrelling.guardian.adapters.ArticleAdapter;
+import com.example.dcrelling.guardian.services.GuardianService;
 
 public class GuardianController extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener, GuardianView
@@ -115,7 +116,7 @@ public class GuardianController extends AppCompatActivity
     }
     else if (id == R.id.nav_gallery)
     {
-
+      _presenter.loadArticles(GuardianService.ApiType.CONTENT);
     }
     else if (id == R.id.nav_slideshow)
     {
@@ -143,7 +144,7 @@ public class GuardianController extends AppCompatActivity
   @Override
   protected void onDestroy()
   {
-    _presenter.onDestory();
+    _presenter.onDestroy();
     super.onDestroy();
   }
 

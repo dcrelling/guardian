@@ -10,15 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.example.dcrelling.guardian.R;
-import com.example.dcrelling.guardian.services.ArticleSearchResponse;
+import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 
 /**
  * Created by dcrelling on 8/21/16.
  */
 
-public class ArticleAdapter extends ArrayAdapter<ArticleSearchResponse.Article>
+public class ArticleAdapter extends ArrayAdapter<GuardianArticleResponse.Article>
 {
-  public ArticleAdapter(Context context, List<ArticleSearchResponse.Article> objects)
+  public ArticleAdapter(Context context, List<GuardianArticleResponse.Article> objects)
   {
     super(context, 0, objects);
   }
@@ -28,7 +28,7 @@ public class ArticleAdapter extends ArrayAdapter<ArticleSearchResponse.Article>
   @Override
   public View getView(int position, View convertView, ViewGroup parent)
   {
-    ArticleSearchResponse.Article article = getItem(position);
+    GuardianArticleResponse.Article article = getItem(position);
     if (convertView == null)
     {
       convertView = LayoutInflater.from(getContext()).inflate(R.layout.article_list_item, parent, false);

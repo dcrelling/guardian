@@ -1,11 +1,11 @@
 package com.example.dcrelling.guardian.ui;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import android.util.Log;
+import com.example.dcrelling.guardian.factories.ParametersFactory;
 import com.example.dcrelling.guardian.factories.ServiceFactory;
-import com.example.dcrelling.guardian.services.ArticleSearchResponse;
+import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -21,6 +21,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
   private GuardianView _view;
   private GuardianModel _model;
   private GuardianService _guardianService;
+  private ParametersFactory _articleSearchParametersFactory;
 
 
   public GuardianPresenterImpl(GuardianView view, GuardianModel model)
@@ -34,24 +35,25 @@ public class GuardianPresenterImpl implements GuardianPresenter
   public void initialize()
   {
     _guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
-
+    _articleSearchParametersFactory = new ParametersFactory();
   }
 
 
   @Override
   public void loadDefaultArticles()
   {
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("api-key", GuardianService.API_KEY);
-    params.put("format", "json");
-    params.put("from-date", "2016-08-21");
-    params.put("page", "1");
-    params.put("page-size", "10");
+    loadArticles(GuardianService.ApiType.CONTENT);
+  }
 
-    _guardianService.searchArticles(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<ArticleSearchResponse>()
+
+  @Override
+  public void loadArticles(GuardianService.ApiType apiType)
+  {
+    Map<String, String> params = _articleSearchParametersFactory.getParameters(apiType);
+    _guardianService.getArticles(apiType.getPath(), params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<GuardianArticleResponse>()
     {
       @Override
-      public void call(ArticleSearchResponse articleSearchResponse)
+      public void call(GuardianArticleResponse articleSearchResponse)
       {
         Log.d("got here", "got here");
         _model.setArticleList(articleSearchResponse.getResponse().getArticleList());
@@ -62,7 +64,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
 
 
   @Override
-  public void onDestory()
+  public void onDestroy()
   {
     _model = null;
     _view = null;
