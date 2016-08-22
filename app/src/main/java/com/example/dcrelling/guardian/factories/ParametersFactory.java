@@ -18,13 +18,10 @@ public class ParametersFactory
 
     Map<String, String> params = buildDefault();
 
-    switch (type)
-    {
-      case CONTENT:
-        break;
-      case SECTION:
-        break;
+    if(type != GuardianService.ApiType.SEARCH){
+      params.put("q", type.getQuery());
     }
+
     return params;
   }
 

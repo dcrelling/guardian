@@ -110,29 +110,29 @@ public class GuardianController extends AppCompatActivity
     // Handle navigation view item clicks here.
     int id = item.getItemId();
 
-    if (id == R.id.nav_camera)
+    if (id == R.id.us_news)
     {
-      // Handle the camera action
+      _presenter.loadArticles(GuardianService.ApiType.US_NEWS);
     }
-    else if (id == R.id.nav_gallery)
+    else if (id == R.id.music)
     {
-      _presenter.loadArticles(GuardianService.ApiType.CONTENT);
+      _presenter.loadArticles(GuardianService.ApiType.MUSIC);
     }
-    else if (id == R.id.nav_slideshow)
+    else if (id == R.id.business)
     {
-
+      _presenter.loadArticles(GuardianService.ApiType.BUSINESS);
     }
-    else if (id == R.id.nav_manage)
+    else if (id == R.id.technology)
     {
-
+      _presenter.loadArticles(GuardianService.ApiType.TECHNOLOGY);
     }
-    else if (id == R.id.nav_share)
+    else if (id == R.id.world)
     {
-
+      _presenter.loadArticles(GuardianService.ApiType.WORLD);
     }
-    else if (id == R.id.nav_send)
+    else if (id == R.id.politics)
     {
-
+      _presenter.loadArticles(GuardianService.ApiType.POLITICS);
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

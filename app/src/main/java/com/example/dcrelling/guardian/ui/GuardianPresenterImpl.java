@@ -42,7 +42,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
   @Override
   public void loadDefaultArticles()
   {
-    loadArticles(GuardianService.ApiType.CONTENT);
+    loadArticles(GuardianService.ApiType.SEARCH);
   }
 
 
@@ -50,13 +50,13 @@ public class GuardianPresenterImpl implements GuardianPresenter
   public void loadArticles(GuardianService.ApiType apiType)
   {
     Map<String, String> params = _articleSearchParametersFactory.getParameters(apiType);
-    _guardianService.getArticles(apiType.getPath(), params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<GuardianArticleResponse>()
+    _guardianService.getArticles(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<GuardianArticleResponse>()
     {
       @Override
-      public void call(GuardianArticleResponse articleSearchResponse)
+      public void call(GuardianArticleResponse articleResponse)
       {
         Log.d("got here", "got here");
-        _model.setArticleList(articleSearchResponse.getResponse().getArticleList());
+        _model.setArticleList(articleResponse.getResponse().getArticleList());
         _view.onDisplayArticleList();
       }
     });
