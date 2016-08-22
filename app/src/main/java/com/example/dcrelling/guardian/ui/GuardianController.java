@@ -1,8 +1,5 @@
 package com.example.dcrelling.guardian.ui;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,18 +16,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import com.example.dcrelling.guardian.R;
 import com.example.dcrelling.guardian.adapters.ArticleAdapter;
-import com.example.dcrelling.guardian.factories.ServiceFactory;
-import com.example.dcrelling.guardian.services.ArticleSearchResponse;
-import com.example.dcrelling.guardian.services.GuardianService;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity
-    implements NavigationView.OnNavigationItemSelectedListener
+public class GuardianController extends AppCompatActivity
+    implements NavigationView.OnNavigationItemSelectedListener, GuardianView
 {
 
-  private GuardianService _guardianService;
+  private GuardianPresenter _presenter;
+  private GuardianModel _model;
 
 
   @Override
@@ -62,35 +53,10 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
-    _guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
-
-    loadDefaultArticles();
-
-  }
-
-
-  private void loadDefaultArticles()
-  {
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("api-key", GuardianService.API_KEY);
-    params.put("format", "json");
-    params.put("from-date", "2016-08-21");
-    params.put("page", "1");
-    params.put("page-size", "10");
-
-    _guardianService.searchArticles(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<ArticleSearchResponse>()
-    {
-      @Override
-      public void call(ArticleSearchResponse articleSearchResponse)
-      {
-        Log.d("got here", "got here");
-
-        ArticleAdapter articleAdapter = new ArticleAdapter(getApplicationContext(), articleSearchResponse.getResponse().getArticleList());
-        RelativeLayout listContainer = (RelativeLayout) findViewById(R.id.content_main);
-        ListView articleListView = (ListView) listContainer.findViewById(R.id.article_list);
-        articleListView.setAdapter(articleAdapter);
-      }
-    });
+    _model = new GuardianModel();
+    _presenter = new GuardianPresenterImpl(this, _model);
+    _presenter.initialize();
+    _presenter.loadDefaultArticles();
   }
 
 
@@ -171,5 +137,24 @@ public class MainActivity extends AppCompatActivity
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
     drawer.closeDrawer(GravityCompat.START);
     return true;
+  }
+
+
+  @Override
+  protected void onDestroy()
+  {
+    _presenter.onDestory();
+    super.onDestroy();
+  }
+
+
+  @Override
+  public void onDisplayArticleList()
+  {
+    //todo dcrelling need to find a way to check for null on the model
+    ArticleAdapter articleAdapter = new ArticleAdapter(getApplicationContext(), _model.getArticleList());
+    RelativeLayout listContainer = (RelativeLayout) findViewById(R.id.content_main);
+    ListView articleListView = (ListView) listContainer.findViewById(R.id.article_list);
+    articleListView.setAdapter(articleAdapter);
   }
 }
