@@ -1,5 +1,7 @@
 package com.example.dcrelling.guardian.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,11 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import com.example.dcrelling.guardian.R;
 import com.example.dcrelling.guardian.adapters.ArticleAdapter;
+import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
 
 public class GuardianController extends AppCompatActivity
@@ -26,6 +30,8 @@ public class GuardianController extends AppCompatActivity
   private GuardianPresenter _presenter;
   private GuardianModel _model;
   private ProgressBar _progressBar;
+  private ListView _articleListView;
+  private RelativeLayout _listContainer;
 
 
   @Override
@@ -57,6 +63,8 @@ public class GuardianController extends AppCompatActivity
     navigationView.setNavigationItemSelectedListener(this);
 
     _progressBar = (ProgressBar) findViewById(R.id.article_progress);
+    _listContainer = (RelativeLayout) findViewById(R.id.content_main);
+    _articleListView = (ListView) _listContainer.findViewById(R.id.article_list);
 
     _model = new GuardianModel();
     _presenter = new GuardianPresenterImpl(this, _model);
@@ -158,9 +166,19 @@ public class GuardianController extends AppCompatActivity
   {
     //todo dcrelling need to find a way to check for null on the model
     ArticleAdapter articleAdapter = new ArticleAdapter(getApplicationContext(), _model.getArticleList());
-    RelativeLayout listContainer = (RelativeLayout) findViewById(R.id.content_main);
-    ListView articleListView = (ListView) listContainer.findViewById(R.id.article_list);
-    articleListView.setAdapter(articleAdapter);
+    _articleListView.setAdapter(articleAdapter);
+    _articleListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+    {
+      @Override
+      public void onItemClick(AdapterView<?> adapterView, View view, int i, long l)
+      {
+        GuardianArticleResponse.Article article = (GuardianArticleResponse.Article) adapterView.getItemAtPosition(i);
+        String articleUrl = article.webUrl;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(articleUrl));
+        startActivity(intent);
+      }
+    });
   }
 
 

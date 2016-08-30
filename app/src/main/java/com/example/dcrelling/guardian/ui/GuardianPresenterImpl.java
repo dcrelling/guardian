@@ -2,7 +2,6 @@ package com.example.dcrelling.guardian.ui;
 
 import java.util.Map;
 
-import android.util.Log;
 import com.example.dcrelling.guardian.factories.ParametersFactory;
 import com.example.dcrelling.guardian.factories.ServiceFactory;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
@@ -56,7 +55,6 @@ public class GuardianPresenterImpl implements GuardianPresenter
       @Override
       public void call(GuardianArticleResponse articleResponse)
       {
-        Log.d("got here", "got here");
         _model.setArticleList(articleResponse.getResponse().getArticleList());
         _view.onDropProgress();
         _view.onDisplayArticleList();

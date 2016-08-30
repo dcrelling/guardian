@@ -5,9 +5,6 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by dcrelling on 8/21/16.
- */
 
 public class GuardianArticleResponse
 {
@@ -51,6 +48,13 @@ public class GuardianArticleResponse
     public String webTitle;
     public String webUrl;
     public String apiUrl;
+    public Fields fields;
+  }
+
+
+  public class Fields
+  {
+    public String thumbnail;
   }
 
 

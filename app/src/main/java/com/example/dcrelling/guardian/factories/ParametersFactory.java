@@ -12,13 +12,25 @@ import com.example.dcrelling.guardian.services.GuardianService;
 public class ParametersFactory
 {
 
+  private final static String API_KEY = "api-key";
+  private final static String FORMAT = "format";
+  private final static String RESPONSE_FORMAT = "json";
+  private final static String FROM_DATE = "from-date";
+  private final static String NUM_PAGES = "page";
+  private final static int DEFAULT_NUM_PAGES = 1;
+  private final static String PAGE_SIZE = "page-size";
+  private final static int DEFAULT_PAGE_SIZE = 10;
+  private final static String SHOW_FIELDS = "show-fields";
+  private final static String THUMBNAIL = "thumbnail";
+
 
   public Map<String, String> getParameters(GuardianService.ApiType type)
   {
 
     Map<String, String> params = buildDefault();
 
-    if(type != GuardianService.ApiType.SEARCH){
+    if (type != GuardianService.ApiType.SEARCH)
+    {
       params.put("q", type.getQuery());
     }
 
@@ -29,11 +41,12 @@ public class ParametersFactory
   private Map<String, String> buildDefault()
   {
     Map<String, String> params = new HashMap<>();
-    params.put("api-key", GuardianService.API_KEY);
-    params.put("format", "json");
-    params.put("from-date", "2016-08-21");
-    params.put("page", "1");
-    params.put("page-size", "10");
+    params.put(API_KEY, GuardianService.API_KEY);
+    params.put(FORMAT, RESPONSE_FORMAT);
+    params.put(FROM_DATE, "2016-08-21");
+    params.put(NUM_PAGES, Integer.toString(DEFAULT_NUM_PAGES));
+    params.put(PAGE_SIZE, Integer.toString(DEFAULT_PAGE_SIZE));
+    params.put(SHOW_FIELDS, THUMBNAIL);
     return params;
   }
 
