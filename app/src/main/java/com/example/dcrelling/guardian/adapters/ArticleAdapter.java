@@ -38,7 +38,14 @@ public class ArticleAdapter extends ArrayAdapter<GuardianArticleResponse.Article
     TextView webTitle = (TextView) convertView.findViewById(R.id.web_title);
     TextView timeStamp = (TextView) convertView.findViewById(R.id.time_stamp);
     ImageView image = (ImageView) convertView.findViewById(R.id.thumbnail);
-    Picasso.with(getContext()).load(article.fields.thumbnail).placeholder(R.drawable.placeholder_image_nine_patch).into(image);
+    if (article.fields != null)
+    {
+      Picasso.with(getContext()).load(article.fields.thumbnail).placeholder(R.drawable.placeholder_image).into(image);
+    }
+    else
+    {
+      Picasso.with(getContext()).load(R.drawable.placeholder_image).into(image);
+    }
     webTitle.setText(article.webTitle);
     timeStamp.setText(article.webPublicationDate);
     return convertView;
