@@ -6,4 +6,10 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+
+    <style name="ImageView">
+        <item name="android:layout_height">80dip</item>
+        <item name="android:layout_width">80dip</item>
+        <item name="android:layout_margin">5dip</item>
+    </style>
 </resources>
