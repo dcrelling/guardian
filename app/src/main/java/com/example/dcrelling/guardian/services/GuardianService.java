@@ -6,9 +6,6 @@ import retrofit2.http.GET;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
-/**
- * Created by dcrelling on 8/21/16.
- */
 
 public interface GuardianService
 {

@@ -190,17 +190,17 @@ public class GuardianController extends AppCompatActivity
 
 
   @Override
-  public void onError(String message)
+  public void onError(String message, final GuardianService.ApiType apiType)
   {
     onDropProgress();
     Snackbar snackbar;
     snackbar = Snackbar.make(_coordinatorLayout, message, Snackbar.LENGTH_LONG)
-        .setAction("Retry", new View.OnClickListener()
+        .setAction(R.string.retry, new View.OnClickListener()
         {
           @Override
           public void onClick(View view)
           {
-
+              _presenter.loadArticles(apiType);
           }
         });
     snackbar.setActionTextColor(Color.YELLOW);

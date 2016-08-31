@@ -12,4 +12,5 @@
     <string name="technology_section">Technology</string>
     <string name="world_news_section">World News</string>
     <string name="politics_section">Politics</string>
+    <string name="retry">Retry</string>
 </resources>

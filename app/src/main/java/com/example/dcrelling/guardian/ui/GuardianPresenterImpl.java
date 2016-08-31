@@ -50,7 +50,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
 
 
   @Override
-  public void loadArticles(GuardianService.ApiType apiType)
+  public void loadArticles(final GuardianService.ApiType apiType)
   {
     _view.onShowProgress();
     Map<String, String> params = _articleSearchParametersFactory.getParameters(apiType);
@@ -86,7 +86,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
           errorMsg = GuardianService.Errors.UNKNOWN.getMsg();
         }
 
-        _view.onError(errorMsg);
+        _view.onError(errorMsg, apiType);
       }
     });
   }
