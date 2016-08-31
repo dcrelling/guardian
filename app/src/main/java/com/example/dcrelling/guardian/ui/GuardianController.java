@@ -1,9 +1,12 @@
 package com.example.dcrelling.guardian.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import com.example.dcrelling.guardian.R;
 import com.example.dcrelling.guardian.adapters.ArticleAdapter;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
@@ -30,6 +34,7 @@ public class GuardianController extends AppCompatActivity
   private ProgressBar _progressBar;
   private ListView _articleListView;
   private RelativeLayout _listContainer;
+  private CoordinatorLayout _coordinatorLayout;
 
 
   @Override
@@ -49,6 +54,7 @@ public class GuardianController extends AppCompatActivity
     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
     navigationView.setNavigationItemSelectedListener(this);
 
+    _coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
     _progressBar = (ProgressBar) findViewById(R.id.article_progress);
     _listContainer = (RelativeLayout) findViewById(R.id.content_main);
     _articleListView = (ListView) _listContainer.findViewById(R.id.article_list);
@@ -180,5 +186,27 @@ public class GuardianController extends AppCompatActivity
   public void onDropProgress()
   {
     _progressBar.setVisibility(View.GONE);
+  }
+
+
+  @Override
+  public void onError(String message)
+  {
+    onDropProgress();
+    Snackbar snackbar;
+    snackbar = Snackbar.make(_coordinatorLayout, message, Snackbar.LENGTH_LONG)
+        .setAction("Retry", new View.OnClickListener()
+        {
+          @Override
+          public void onClick(View view)
+          {
+
+          }
+        });
+    snackbar.setActionTextColor(Color.YELLOW);
+    View snackBarView = snackbar.getView();
+    TextView snackText = (TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+    snackText.setTextColor(Color.RED);
+    snackbar.show();
   }
 }

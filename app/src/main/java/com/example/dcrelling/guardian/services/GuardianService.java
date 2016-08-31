@@ -50,4 +50,26 @@ public interface GuardianService
 
   }
 
+
+  enum Errors
+  {
+    HTTP("No Articles Returned"),
+    IO("Can't Connect To Server"),
+    UNKNOWN("Something Went Wrong");
+
+    private String msg;
+
+
+    Errors(String msg)
+    {
+      this.msg = msg;
+    }
+
+
+    public String getMsg()
+    {
+      return msg;
+    }
+  }
+
 }

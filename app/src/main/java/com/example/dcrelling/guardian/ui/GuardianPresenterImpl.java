@@ -1,11 +1,14 @@
 package com.example.dcrelling.guardian.ui;
 
+import java.io.IOException;
 import java.util.Map;
 
+import android.util.Log;
 import com.example.dcrelling.guardian.factories.ParametersFactory;
 import com.example.dcrelling.guardian.factories.ServiceFactory;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -21,6 +24,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
   private GuardianModel _model;
   private GuardianService _guardianService;
   private ParametersFactory _articleSearchParametersFactory;
+  private String TAG = GuardianPresenterImpl.class.getName();
 
 
   public GuardianPresenterImpl(GuardianView view, GuardianModel model)
@@ -58,6 +62,31 @@ public class GuardianPresenterImpl implements GuardianPresenter
         _model.setArticleList(articleResponse.getResponse().getArticleList());
         _view.onDropProgress();
         _view.onDisplayArticleList();
+      }
+    }, new Action1<Throwable>()
+    {
+      @Override
+      public void call(Throwable error)
+      {
+        String errorMsg;
+        if (error instanceof HttpException)
+        {
+          HttpException exception = (HttpException) error;
+          Log.e(TAG, exception.getMessage());
+          errorMsg = GuardianService.Errors.HTTP.getMsg();
+        }
+        else if (error instanceof IOException)
+        {
+          IOException exception = (IOException) error;
+          Log.e(TAG, exception.getMessage());
+          errorMsg = GuardianService.Errors.IO.getMsg();
+        }
+        else
+        {
+          errorMsg = GuardianService.Errors.UNKNOWN.getMsg();
+        }
+
+        _view.onError(errorMsg);
       }
     });
   }

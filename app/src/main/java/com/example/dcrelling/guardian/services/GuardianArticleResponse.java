@@ -22,6 +22,9 @@ public class GuardianArticleResponse
 
     @SerializedName("results")
     List<Article> _articleList;
+    String status;
+    String total;
+    String message;
 
 
     public Response()

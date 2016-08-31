@@ -13,4 +13,6 @@ public interface GuardianView
 
 
   void onDropProgress();
+
+  void onError(String message);
 }
