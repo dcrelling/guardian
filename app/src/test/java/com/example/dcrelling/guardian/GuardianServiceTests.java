@@ -17,6 +17,8 @@ import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
 import rx.observers.TestSubscriber;
 
+import static org.junit.Assert.*;
+
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class GuardianServiceTests
@@ -51,6 +53,7 @@ public class GuardianServiceTests
     mockGuardianService.getArticles(queryParams).subscribe(testSubscriber);
 
     List<GuardianArticleResponse> responseList = testSubscriber.getOnNextEvents();
+    assertNotNull(responseList.get(0).getResponse().getArticleList());
     testSubscriber.assertCompleted();
   }
 
