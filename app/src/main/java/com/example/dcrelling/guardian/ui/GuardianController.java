@@ -26,7 +26,7 @@ import com.example.dcrelling.guardian.factories.ParametersFactory;
 import com.example.dcrelling.guardian.factories.ServiceFactory;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
-import com.example.dcrelling.guardian.services.ObserveOnMainTransformer;
+import com.example.dcrelling.guardian.transformers.ObserveOnMainTransformer;
 
 public class GuardianController extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener, GuardianView

@@ -1,4 +1,4 @@
-package com.example.dcrelling.guardian;
+package com.example.dcrelling.guardian.transformers;
 
 import rx.Observable;
 import rx.schedulers.Schedulers;

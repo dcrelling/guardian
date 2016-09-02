@@ -6,6 +6,7 @@ import java.util.Map;
 import com.example.dcrelling.guardian.factories.ParametersFactory;
 import com.example.dcrelling.guardian.mocks.GuardianServiceMock;
 import com.example.dcrelling.guardian.services.GuardianService;
+import com.example.dcrelling.guardian.transformers.ObserveImmediately;
 import com.example.dcrelling.guardian.ui.GuardianModel;
 import com.example.dcrelling.guardian.ui.GuardianPresenter;
 import com.example.dcrelling.guardian.ui.GuardianPresenterImpl;
@@ -21,7 +22,9 @@ import retrofit2.mock.BehaviorDelegate;
 import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -72,6 +75,9 @@ public class GuardianPresenterTests
     queryParams.put(GuardianServiceMock.PATH, "valid_response.json");
     when(_parametersFactory.getParameters(any(GuardianService.ApiType.class))).thenReturn(queryParams);
     _presenter.loadDefaultArticles();
+    verify(_view).onShowProgress();
+    verify(_view).onDropProgress();
+    verify(_view).onDisplayArticleList();
   }
-
+  
 }
