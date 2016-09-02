@@ -50,7 +50,10 @@ public class GuardianPresenterImpl implements GuardianPresenter
     loadArticles(apiType, params);
   }
 
-
+  //todo this section needs to be refactored. The processing of the response can happen in another class. we are directly using the retrofit
+  //GuardianService class instead we shoudl wrap that class with a NetworkService class or something that can intercept the response from retrofit and so some processing
+  //to the response checking for response errors and such. Also that would allow the presenter to get the Observable and cache it so that when the orientation of the device changes
+  //we can unsubscribe then resubscribe. This should be the next refactor.
   private void loadArticles(final GuardianService.ApiType apiType, Map<String, String> params)
   {
     _view.onShowProgress();
