@@ -61,14 +61,41 @@ public class GuardianPresenterImpl implements GuardianPresenter
       @Override
       public void call(GuardianArticleResponse articleResponse)
       {
-        _model.setArticleList(articleResponse.getResponse().getArticleList());
-        _view.onDropProgress();
-        _view.onDisplayArticleList();
+        processSuccessfulResponse(articleResponse);
+
+      }
+
+
+      private void processSuccessfulResponse(GuardianArticleResponse articleResponse)
+      {
+        if (_view != null)
+        {
+          if (articleResponse.getResponse() != null && (articleResponse.getResponse().getArticleList() != null || !articleResponse.getResponse().getArticleList().isEmpty()))
+          {
+            _model.setArticleList(articleResponse.getResponse().getArticleList());
+            _view.onDropProgress();
+            _view.onDisplayArticleList();
+          }
+          else
+          {
+            _view.onError(GuardianService.Errors.HTTP.getMsg(), apiType);
+          }
+        }
+        else
+        {
+          Log.e(TAG, "view is null");
+        }
       }
     }, new Action1<Throwable>()
     {
       @Override
       public void call(Throwable error)
+      {
+        processError(error);
+      }
+
+
+      private void processError(Throwable error)
       {
         String errorMsg;
         if (error instanceof HttpException)
@@ -88,7 +115,14 @@ public class GuardianPresenterImpl implements GuardianPresenter
           errorMsg = GuardianService.Errors.UNKNOWN.getMsg();
         }
 
-        _view.onError(errorMsg, apiType);
+        if (_view != null)
+        {
+          _view.onError(errorMsg, apiType);
+        }
+        else
+        {
+          Log.e(TAG, "view is null");
+        }
       }
     });
   }

@@ -79,5 +79,5 @@ public class GuardianPresenterTests
     verify(_view).onDropProgress();
     verify(_view).onDisplayArticleList();
   }
-  
+
 }
