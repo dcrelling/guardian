@@ -9,6 +9,7 @@ import com.google.gson.annotations.SerializedName;
 public class GuardianArticleResponse
 {
   public Response response;
+  public String message;
 
 
   public Response getResponse()

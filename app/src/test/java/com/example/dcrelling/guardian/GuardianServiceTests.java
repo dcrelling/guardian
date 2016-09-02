@@ -17,9 +17,9 @@ import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
 import rx.observers.TestSubscriber;
 
-import static org.junit.Assert.*;
-
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class GuardianServiceTests
 {
@@ -46,10 +46,11 @@ public class GuardianServiceTests
 
 
   @Test
-  public void testSuccessResponse()
+  public void testSuccess()
   {
     givenNetworkFailurePercentIs(0);
     Map<String, String> queryParams = new HashMap<>();
+    queryParams.put(GuardianServiceMock.PATH, "valid_response.json");
     mockGuardianService.getArticles(queryParams).subscribe(testSubscriber);
 
     List<GuardianArticleResponse> responseList = testSubscriber.getOnNextEvents();
@@ -57,8 +58,10 @@ public class GuardianServiceTests
     testSubscriber.assertCompleted();
   }
 
+
   @Test
-  public void testFailureResponse() throws Exception {
+  public void testNetworkFailure() throws Exception
+  {
     givenNetworkFailurePercentIs(100);
 
     Map<String, String> queryParams = new HashMap<>();
@@ -66,6 +69,37 @@ public class GuardianServiceTests
 
     testSubscriber.assertNoValues();
     testSubscriber.assertError(IOException.class);
+  }
+
+
+  @Test
+  public void testInvalidAuthKey()
+  {
+    givenNetworkFailurePercentIs(0);
+    Map<String, String> queryParams = new HashMap<>();
+    queryParams.put(GuardianServiceMock.PATH, "invalid_auth_key.json");
+    mockGuardianService.getArticles(queryParams).subscribe(testSubscriber);
+
+    List<GuardianArticleResponse> responseList = testSubscriber.getOnNextEvents();
+    testSubscriber.assertNoErrors();
+    testSubscriber.assertCompleted();
+    assertNotNull(responseList.get(0).message);
+  }
+
+
+  @Test
+  public void testInvalidResponse()
+  {
+    givenNetworkFailurePercentIs(0);
+    Map<String, String> queryParams = new HashMap<>();
+    queryParams.put(GuardianServiceMock.PATH, "invalid_response.json");
+    mockGuardianService.getArticles(queryParams).subscribe(testSubscriber);
+
+    List<GuardianArticleResponse> responseList = testSubscriber.getOnNextEvents();
+    testSubscriber.assertNoErrors();
+    testSubscriber.assertCompleted();
+    assertEquals(responseList.get(0).getResponse(), null);
+
   }
 
 
