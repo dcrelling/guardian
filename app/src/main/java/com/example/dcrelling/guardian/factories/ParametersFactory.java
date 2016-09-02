@@ -1,7 +1,10 @@
 package com.example.dcrelling.guardian.factories;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 
 import com.example.dcrelling.guardian.services.GuardianService;
 
@@ -40,10 +43,13 @@ public class ParametersFactory
 
   private Map<String, String> buildDefault()
   {
+    Date today = new Date();
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     Map<String, String> params = new HashMap<>();
     params.put(API_KEY, GuardianService.API_KEY);
     params.put(FORMAT, RESPONSE_FORMAT);
-    params.put(FROM_DATE, "2016-08-21");
+    params.put(FROM_DATE, dateFormat.format(today));
     params.put(NUM_PAGES, Integer.toString(DEFAULT_NUM_PAGES));
     params.put(PAGE_SIZE, Integer.toString(DEFAULT_PAGE_SIZE));
     params.put(SHOW_FIELDS, THUMBNAIL);
