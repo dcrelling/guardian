@@ -26,6 +26,7 @@ import com.example.dcrelling.guardian.factories.ParametersFactory;
 import com.example.dcrelling.guardian.factories.ServiceFactory;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
+import com.example.dcrelling.guardian.services.ObserveOnMainTransformer;
 
 public class GuardianController extends AppCompatActivity
     implements NavigationView.OnNavigationItemSelectedListener, GuardianView
@@ -67,13 +68,14 @@ public class GuardianController extends AppCompatActivity
   }
 
 
+  //todo dependency injection would be nice
   private void initPresenter()
   {
     GuardianService guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
     ParametersFactory parametersFactory = new ParametersFactory();
 
     _model = new GuardianModel();
-    _presenter = new GuardianPresenterImpl(this, _model, guardianService, parametersFactory);
+    _presenter = new GuardianPresenterImpl(this, _model, guardianService, parametersFactory, new ObserveOnMainTransformer());
   }
 
 

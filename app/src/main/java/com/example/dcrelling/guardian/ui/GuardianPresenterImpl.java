@@ -7,11 +7,9 @@ import android.util.Log;
 import com.example.dcrelling.guardian.factories.ParametersFactory;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
-import com.example.dcrelling.guardian.util.UIObservable;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by dcrelling on 8/21/16.
@@ -24,15 +22,17 @@ public class GuardianPresenterImpl implements GuardianPresenter
   private GuardianModel _model;
   private GuardianService _guardianService;
   private ParametersFactory _articleSearchParametersFactory;
+  private Observable.Transformer _transformer;
   private String TAG = GuardianPresenterImpl.class.getName();
 
 
-  public GuardianPresenterImpl(GuardianView view, GuardianModel model, GuardianService guardianService, ParametersFactory parametersFactory)
+  public GuardianPresenterImpl(GuardianView view, GuardianModel model, GuardianService guardianService, ParametersFactory parametersFactory, Observable.Transformer transformer)
   {
     _view = view;
     _model = model;
     _guardianService = guardianService;
     _articleSearchParametersFactory = parametersFactory;
+    _transformer = transformer;
   }
 
 
@@ -56,8 +56,7 @@ public class GuardianPresenterImpl implements GuardianPresenter
     _view.onShowProgress();
     Observable<GuardianArticleResponse> observable;
     observable = _guardianService.getArticles(params);
-    observable.subscribeOn(Schedulers.io());
-    UIObservable.observeOnMain(observable).subscribe(new Action1<GuardianArticleResponse>()
+    observable.compose(_transformer).subscribe(new Action1<GuardianArticleResponse>()
     {
       @Override
       public void call(GuardianArticleResponse articleResponse)

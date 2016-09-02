@@ -11,7 +11,6 @@ import com.example.dcrelling.guardian.ui.GuardianPresenter;
 import com.example.dcrelling.guardian.ui.GuardianPresenterImpl;
 import com.example.dcrelling.guardian.ui.GuardianView;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -61,13 +60,11 @@ public class GuardianPresenterTests
     final BehaviorDelegate<GuardianService> delegate = mockRetrofit.create(GuardianService.class);
 
     mockGuardianService = new GuardianServiceMock(delegate);
-    _presenter = new GuardianPresenterImpl(_view, _model, mockGuardianService, _parametersFactory);
+    _presenter = new GuardianPresenterImpl(_view, _model, mockGuardianService, _parametersFactory, new ObserveImmediately());
 
   }
 
 
-  //todo dcrelling need to get around the fact that the android scheduler doesn't exist
-  @Ignore
   @Test
   public void testValidResponse()
   {
