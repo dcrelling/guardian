@@ -8,8 +8,6 @@ import com.example.dcrelling.guardian.services.GuardianService;
 
 public interface GuardianPresenter
 {
-  void initialize();
-
 
   void loadDefaultArticles();
 
@@ -17,6 +15,6 @@ public interface GuardianPresenter
   void onDestroy();
 
 
-  void loadArticles(GuardianService.ApiType apiType);
+  void loadArticlesByApi(GuardianService.ApiType apiType);
 
 }

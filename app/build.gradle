@@ -56,4 +56,6 @@ dependencies {
     //helpful mock lib for testing retrofit services
     testCompile 'com.squareup.retrofit2:retrofit-mock:2.1.0'
 
+    testCompile 'org.mockito:mockito-core:2.0.5-beta'
+
 }

@@ -22,6 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.dcrelling.guardian.R;
 import com.example.dcrelling.guardian.adapters.ArticleAdapter;
+import com.example.dcrelling.guardian.factories.ParametersFactory;
+import com.example.dcrelling.guardian.factories.ServiceFactory;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
 
@@ -59,10 +61,19 @@ public class GuardianController extends AppCompatActivity
     _listContainer = (RelativeLayout) findViewById(R.id.content_main);
     _articleListView = (ListView) _listContainer.findViewById(R.id.article_list);
 
-    _model = new GuardianModel();
-    _presenter = new GuardianPresenterImpl(this, _model);
-    _presenter.initialize();
+    initPresenter();
+
     _presenter.loadDefaultArticles();
+  }
+
+
+  private void initPresenter()
+  {
+    GuardianService guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
+    ParametersFactory parametersFactory = new ParametersFactory();
+
+    _model = new GuardianModel();
+    _presenter = new GuardianPresenterImpl(this, _model, guardianService, parametersFactory);
   }
 
 
@@ -117,27 +128,27 @@ public class GuardianController extends AppCompatActivity
 
     if (id == R.id.us_news)
     {
-      _presenter.loadArticles(GuardianService.ApiType.US_NEWS);
+      _presenter.loadArticlesByApi(GuardianService.ApiType.US_NEWS);
     }
     else if (id == R.id.music)
     {
-      _presenter.loadArticles(GuardianService.ApiType.MUSIC);
+      _presenter.loadArticlesByApi(GuardianService.ApiType.MUSIC);
     }
     else if (id == R.id.business)
     {
-      _presenter.loadArticles(GuardianService.ApiType.BUSINESS);
+      _presenter.loadArticlesByApi(GuardianService.ApiType.BUSINESS);
     }
     else if (id == R.id.technology)
     {
-      _presenter.loadArticles(GuardianService.ApiType.TECHNOLOGY);
+      _presenter.loadArticlesByApi(GuardianService.ApiType.TECHNOLOGY);
     }
     else if (id == R.id.world)
     {
-      _presenter.loadArticles(GuardianService.ApiType.WORLD);
+      _presenter.loadArticlesByApi(GuardianService.ApiType.WORLD);
     }
     else if (id == R.id.politics)
     {
-      _presenter.loadArticles(GuardianService.ApiType.POLITICS);
+      _presenter.loadArticlesByApi(GuardianService.ApiType.POLITICS);
     }
 
     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -200,7 +211,7 @@ public class GuardianController extends AppCompatActivity
           @Override
           public void onClick(View view)
           {
-              _presenter.loadArticles(apiType);
+            _presenter.loadArticlesByApi(apiType);
           }
         });
     snackbar.setActionTextColor(Color.YELLOW);

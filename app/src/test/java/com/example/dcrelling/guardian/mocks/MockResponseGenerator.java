@@ -1,13 +1,10 @@
-package com.example.dcrelling.guardian;
+package com.example.dcrelling.guardian.mocks;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.io.Writer;
-
-import android.content.res.Resources;
-import android.util.Log;
 
 /**
  * Created by dcrelling on 9/1/16.

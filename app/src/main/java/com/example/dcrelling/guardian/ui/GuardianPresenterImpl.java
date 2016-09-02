@@ -5,11 +5,11 @@ import java.util.Map;
 
 import android.util.Log;
 import com.example.dcrelling.guardian.factories.ParametersFactory;
-import com.example.dcrelling.guardian.factories.ServiceFactory;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
+import com.example.dcrelling.guardian.util.UIObservable;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.android.schedulers.AndroidSchedulers;
+import rx.Observable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -27,34 +27,37 @@ public class GuardianPresenterImpl implements GuardianPresenter
   private String TAG = GuardianPresenterImpl.class.getName();
 
 
-  public GuardianPresenterImpl(GuardianView view, GuardianModel model)
+  public GuardianPresenterImpl(GuardianView view, GuardianModel model, GuardianService guardianService, ParametersFactory parametersFactory)
   {
     _view = view;
     _model = model;
-  }
-
-
-  @Override
-  public void initialize()
-  {
-    _guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
-    _articleSearchParametersFactory = new ParametersFactory();
+    _guardianService = guardianService;
+    _articleSearchParametersFactory = parametersFactory;
   }
 
 
   @Override
   public void loadDefaultArticles()
   {
-    loadArticles(GuardianService.ApiType.SEARCH);
+    loadArticlesByApi(GuardianService.ApiType.SEARCH);
   }
 
 
   @Override
-  public void loadArticles(final GuardianService.ApiType apiType)
+  public void loadArticlesByApi(final GuardianService.ApiType apiType)
+  {
+    Map<String, String> params = _articleSearchParametersFactory.getParameters(apiType);
+    loadArticles(apiType, params);
+  }
+
+
+  private void loadArticles(final GuardianService.ApiType apiType, Map<String, String> params)
   {
     _view.onShowProgress();
-    Map<String, String> params = _articleSearchParametersFactory.getParameters(apiType);
-    _guardianService.getArticles(params).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<GuardianArticleResponse>()
+    Observable<GuardianArticleResponse> observable;
+    observable = _guardianService.getArticles(params);
+    observable.subscribeOn(Schedulers.io());
+    UIObservable.observeOnMain(observable).subscribe(new Action1<GuardianArticleResponse>()
     {
       @Override
       public void call(GuardianArticleResponse articleResponse)

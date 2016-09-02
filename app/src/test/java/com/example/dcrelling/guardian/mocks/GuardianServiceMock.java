@@ -2,7 +2,6 @@ package com.example.dcrelling.guardian.mocks;
 
 import java.util.Map;
 
-import com.example.dcrelling.guardian.MockResponseGenerator;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
 import com.google.gson.Gson;
