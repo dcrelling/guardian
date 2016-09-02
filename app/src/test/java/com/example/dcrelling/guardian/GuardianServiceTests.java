@@ -9,6 +9,7 @@ import com.example.dcrelling.guardian.mocks.GuardianServiceMock;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -34,7 +35,7 @@ public class GuardianServiceTests
   {
     Retrofit retrofit = new Retrofit.Builder()
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-        .baseUrl("http://example.com").build();
+        .baseUrl("http://mock.com").build();
 
     MockRetrofit mockRetrofit = new MockRetrofit.Builder(retrofit)
         .networkBehavior(behavior).build();
@@ -52,7 +53,6 @@ public class GuardianServiceTests
     Map<String, String> queryParams = new HashMap<>();
     queryParams.put(GuardianServiceMock.PATH, "valid_response.json");
     mockGuardianService.getArticles(queryParams).subscribe(testSubscriber);
-
     List<GuardianArticleResponse> responseList = testSubscriber.getOnNextEvents();
     assertNotNull(responseList.get(0).getResponse().getArticleList());
     testSubscriber.assertCompleted();
@@ -66,7 +66,6 @@ public class GuardianServiceTests
 
     Map<String, String> queryParams = new HashMap<>();
     mockGuardianService.getArticles(queryParams).subscribe(testSubscriber);
-
     testSubscriber.assertNoValues();
     testSubscriber.assertError(IOException.class);
   }
@@ -83,7 +82,9 @@ public class GuardianServiceTests
     List<GuardianArticleResponse> responseList = testSubscriber.getOnNextEvents();
     testSubscriber.assertNoErrors();
     testSubscriber.assertCompleted();
-    assertNotNull(responseList.get(0).message);
+    String message = responseList.get(0).message;
+    assertNotNull(message);
+    assertEquals(message, "Invalid authentication credentials");
   }
 
 
