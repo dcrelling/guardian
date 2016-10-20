@@ -9,8 +9,7 @@ import com.example.dcrelling.guardian.services.GuardianService;
 import com.example.dcrelling.guardian.transformers.ObserveImmediately;
 import com.example.dcrelling.guardian.ui.GuardianModel;
 import com.example.dcrelling.guardian.ui.GuardianPresenter;
-import com.example.dcrelling.guardian.ui.GuardianPresenterImpl;
-import com.example.dcrelling.guardian.ui.GuardianView;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,6 @@ import retrofit2.mock.BehaviorDelegate;
 import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -63,7 +61,7 @@ public class GuardianPresenterTests
     final BehaviorDelegate<GuardianService> delegate = mockRetrofit.create(GuardianService.class);
 
     mockGuardianService = new GuardianServiceMock(delegate);
-    _presenter = new GuardianPresenterImpl(_view, _model, mockGuardianService, _parametersFactory, new ObserveImmediately());
+    _presenter = new GuardianPresenter(_view, _model, mockGuardianService, _parametersFactory, new ObserveImmediately());
 
   }
 
