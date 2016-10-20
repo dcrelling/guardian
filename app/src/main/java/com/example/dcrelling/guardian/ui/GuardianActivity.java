@@ -53,8 +53,7 @@ public class GuardianActivity extends AppCompatActivity
     {
         GuardianService guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
         ParametersFactory parametersFactory = new ParametersFactory();
-//        GuardianContract.GuardianView view = (GuardianView) findViewById(R.id.coordinator_layout);
-        GuardianContract.GuardianView view = (GuardianContract.GuardianView) findViewById(R.id.coordinator_layout);
+        GuardianContract.GuardianView view = (GuardianContract.GuardianView) findViewById(R.id.custom_guardian_view);
         GuardianModel model = new GuardianModel();
         view.setModel(model);
         _presenter = new GuardianPresenter(this, model, guardianService, parametersFactory, new ObserveOnMainTransformer(), view);

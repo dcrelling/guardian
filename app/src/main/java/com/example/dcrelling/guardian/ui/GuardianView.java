@@ -40,7 +40,7 @@ public class GuardianView extends CoordinatorLayout implements GuardianContract.
 
     private void init()
     {
-        rootView = inflate(getContext(), R.layout.content_main, this);
+        rootView = inflate(getContext(), R.layout.custom_guardian_view, this);
         _progressBar = (ProgressBar) rootView.findViewById(R.id.article_progress);
         _articleListView = (ListView) rootView.findViewById(R.id.article_list);
     }

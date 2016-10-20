@@ -37,6 +37,7 @@ public class GuardianPresenter implements GuardianContract.GuardianPresenter
         _guardianService = guardianService;
         _articleSearchParametersFactory = parametersFactory;
         _transformer = transformer;
+        _view.setPresenter(this);
     }
 
 
