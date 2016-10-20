@@ -48,7 +48,7 @@ public class GuardianActivity extends AppCompatActivity
     }
 
 
-    //todo dependency injection would be nice
+    //todo dependency injection would be nice also maybe create a MVPFactory class
     private void initMVP()
     {
         GuardianService guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
