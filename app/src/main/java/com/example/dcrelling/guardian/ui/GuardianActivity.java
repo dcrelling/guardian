@@ -51,18 +51,10 @@ public class GuardianActivity extends AppCompatActivity
     }
 
 
-    //todo dependency injection would be nice also maybe create a MVPFactory class
     private void initMVP()
     {
         GuardianContract.GuardianView view = (GuardianContract.GuardianView) findViewById(R.id.custom_guardian_view);
         DaggerGuardianComponent.builder().netComponent(((GuardianApp) getApplicationContext()).getNetComponent()).guardianModule(new GuardianModule(this, view)).build().inject(this);
-
-//        GuardianService guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
-//        ParametersFactory parametersFactory = new ParametersFactory();
-//        GuardianContract.GuardianView view = (GuardianContract.GuardianView) findViewById(R.id.custom_guardian_view);
-//        GuardianModel model = new GuardianModel();
-//        view.setModel(model);
-//        _presenter = new GuardianPresenter(this, model, guardianService, parametersFactory, new ObserveOnMainTransformer(), view);
     }
 
 
