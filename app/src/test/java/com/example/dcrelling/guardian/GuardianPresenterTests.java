@@ -36,13 +36,13 @@ public class GuardianPresenterTests
 {
 
     @Mock
-    private GuardianContract.GuardianView _view;
+    private GuardianContract.GuardianView mockView;
     @Mock
-    private GuardianModel _model;
+    private GuardianModel mockModel;
     @Mock
-    private ParametersFactory _parametersFactory;
+    private ParametersFactory mockParametersFactory;
     @Mock
-    private GuardianContract.GuardianController _controller;
+    private GuardianContract.GuardianController mockController;
 
     private GuardianPresenter _presenter;
 
@@ -65,7 +65,7 @@ public class GuardianPresenterTests
         final BehaviorDelegate<GuardianService> delegate = mockRetrofit.create(GuardianService.class);
 
         mockGuardianService = new GuardianServiceMock(delegate);
-        _presenter = new GuardianPresenter(_controller, _model, mockGuardianService, _parametersFactory, new ObserveImmediately(), _view);
+        _presenter = new GuardianPresenter(mockController, mockModel, mockGuardianService, mockParametersFactory, new ObserveImmediately(), mockView);
 
     }
 
@@ -75,11 +75,11 @@ public class GuardianPresenterTests
     {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put(GuardianServiceMock.PATH, "valid_response.json");
-        when(_parametersFactory.getParameters(any(GuardianService.ApiType.class))).thenReturn(queryParams);
+        when(mockParametersFactory.getParameters(any(GuardianService.ApiType.class))).thenReturn(queryParams);
         _presenter.loadDefaultArticles();
-        verify(_view).onShowProgress();
-        verify(_view).onDropProgress();
-        verify(_view).onDisplayArticleList();
+        verify(mockView).onShowProgress();
+        verify(mockView).onDropProgress();
+        verify(mockView).onDisplayArticleList();
     }
 
 }
