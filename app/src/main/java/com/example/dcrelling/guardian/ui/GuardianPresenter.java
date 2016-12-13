@@ -9,6 +9,8 @@ import com.example.dcrelling.guardian.services.GuardianService;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.functions.Action1;
@@ -29,6 +31,7 @@ public class GuardianPresenter implements GuardianContract.GuardianPresenter
     private String TAG = GuardianPresenter.class.getName();
 
 
+    @Inject
     public GuardianPresenter(GuardianContract.GuardianController controller, GuardianModel model, GuardianService guardianService, ParametersFactory parametersFactory, Observable.Transformer transformer, GuardianContract.GuardianView view)
     {
         _controller = controller;
@@ -37,7 +40,8 @@ public class GuardianPresenter implements GuardianContract.GuardianPresenter
         _guardianService = guardianService;
         _articleSearchParametersFactory = parametersFactory;
         _transformer = transformer;
-        _view.setPresenter(this);
+        _view.setPresenter(this); //can we use Dagger
+        _view.setModel(_model); //can we use Dagger
     }
 
 

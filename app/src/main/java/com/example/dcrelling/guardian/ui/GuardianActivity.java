@@ -13,16 +13,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.dcrelling.guardian.R;
-import com.example.dcrelling.guardian.factories.ParametersFactory;
-import com.example.dcrelling.guardian.factories.ServiceFactory;
+import com.example.dcrelling.guardian.application.GuardianApp;
+import com.example.dcrelling.guardian.modules.DaggerGuardianComponent;
+import com.example.dcrelling.guardian.modules.GuardianModule;
 import com.example.dcrelling.guardian.services.GuardianService;
-import com.example.dcrelling.guardian.transformers.ObserveOnMainTransformer;
+
+import javax.inject.Inject;
 
 public class GuardianActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GuardianContract.GuardianController
 {
 
-    private GuardianContract.GuardianPresenter _presenter;
+    @Inject
+    public GuardianContract.GuardianPresenter _presenter;
 
 
     @Override
@@ -51,12 +54,15 @@ public class GuardianActivity extends AppCompatActivity
     //todo dependency injection would be nice also maybe create a MVPFactory class
     private void initMVP()
     {
-        GuardianService guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
-        ParametersFactory parametersFactory = new ParametersFactory();
         GuardianContract.GuardianView view = (GuardianContract.GuardianView) findViewById(R.id.custom_guardian_view);
-        GuardianModel model = new GuardianModel();
-        view.setModel(model);
-        _presenter = new GuardianPresenter(this, model, guardianService, parametersFactory, new ObserveOnMainTransformer(), view);
+        DaggerGuardianComponent.builder().netComponent(((GuardianApp) getApplicationContext()).getNetComponent()).guardianModule(new GuardianModule(this, view)).build().inject(this);
+
+//        GuardianService guardianService = ServiceFactory.getInstance().createService(GuardianService.class, GuardianService.BASE_URL);
+//        ParametersFactory parametersFactory = new ParametersFactory();
+//        GuardianContract.GuardianView view = (GuardianContract.GuardianView) findViewById(R.id.custom_guardian_view);
+//        GuardianModel model = new GuardianModel();
+//        view.setModel(model);
+//        _presenter = new GuardianPresenter(this, model, guardianService, parametersFactory, new ObserveOnMainTransformer(), view);
     }
 
 
