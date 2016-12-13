@@ -16,6 +16,8 @@ import com.example.dcrelling.guardian.adapters.ArticleAdapter;
 import com.example.dcrelling.guardian.services.GuardianArticleResponse;
 import com.example.dcrelling.guardian.services.GuardianService;
 
+import javax.inject.Inject;
+
 
 public class GuardianView extends CoordinatorLayout implements GuardianContract.GuardianView
 {
@@ -23,8 +25,8 @@ public class GuardianView extends CoordinatorLayout implements GuardianContract.
     private View rootView;
     private ProgressBar _progressBar;
     private ListView _articleListView;
-    private GuardianContract.GuardianPresenter _presenter;
-    private GuardianModel _model;
+    public GuardianContract.GuardianPresenter _presenter;
+    public GuardianModel _model;
 
     public GuardianView(Context context)
     {

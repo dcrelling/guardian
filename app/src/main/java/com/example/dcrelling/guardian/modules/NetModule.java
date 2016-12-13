@@ -71,10 +71,10 @@ public class NetModule
 
     @Provides
     @Singleton
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient)
+    Retrofit provideRetrofit(OkHttpClient okHttpClient)
     {
         Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .baseUrl(mBaseUrl)
                 .client(okHttpClient)
